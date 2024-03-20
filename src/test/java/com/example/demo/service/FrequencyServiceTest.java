@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Description;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
@@ -30,7 +31,7 @@ class FrequencyServiceTest {
     @Test(description = ("посчитать частоту и проверить порядок по убыванию встречающегося символа"))
     void shouldCountFrequency() {
         Map<Character, Integer> map = service.calculateSymbols(testWord);
-//        assert(map.size(), int i = 3);
+        Assert.assertEquals(map.size(), 3);
         var it = map.entrySet().iterator();
         var e1 = it.next();
         var e2 = it.next();
