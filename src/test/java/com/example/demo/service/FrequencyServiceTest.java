@@ -1,36 +1,45 @@
 package com.example.demo.service;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Description;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Test;
 
 import java.util.Map;
-import java.util.stream.Collectors;
 
-@DisplayName("Класс FrequencyService должен")
-@SpringBootTest
+@Description("Класс FrequencyService должен")
 class FrequencyServiceTest {
+    String testWord;
 
-    @Autowired
-    private FrequencyService service;
+    FrequencyService service = new FrequencyServiceImpl();
 
-    @DisplayName("посчитать частоту и проверить порядок по убыванию встречающегося символа")
-    @Test
+
+    @BeforeClass
+    public void setup(){
+        testWord = "aaaaabcccc";
+    }
+
+    @AfterClass
+    public void tearDown(){
+        testWord = null;
+    }
+
+
+    @Test(description = ("посчитать частоту и проверить порядок по убыванию встречающегося символа"))
     void shouldCountFrequency() {
-        String testWord = "aaaaabcccc";
         Map<Character, Integer> map = service.calculateSymbols(testWord);
-        Assertions.assertThat(map).hasSize(3);
+//        assert(map.size(), int i = 3);
         var it = map.entrySet().iterator();
         var e1 = it.next();
         var e2 = it.next();
         var e3 = it.next();
-        Assertions.assertThat(e1.getKey()).isEqualTo('a');
-        Assertions.assertThat(e1.getValue()).isEqualTo(5);
-        Assertions.assertThat(e2.getKey()).isEqualTo('c');
-        Assertions.assertThat(e2.getValue()).isEqualTo(4);
-        Assertions.assertThat(e3.getKey()).isEqualTo('b');
-        Assertions.assertThat(e3.getValue()).isEqualTo(1);
+        assert(e1.getKey()).equals('a');
+        assert (e1.getValue()).equals(5);
+        assert (e2.getKey()).equals('c');
+        assert (e2.getValue()).equals(4);
+        assert (e3.getKey()).equals('b');
+        assert (e3.getValue()).equals(1);
     }
 }
