@@ -2,11 +2,16 @@ package com.example.demo.service;
 
 import io.qameta.allure.Attachment;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Step;
+import io.qameta.allure.testng.TestInstanceParameter;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 
 class FrequencyServiceTest {
@@ -27,16 +32,31 @@ class FrequencyServiceTest {
         testWord = null;
     }
 
+    @Attachment(type = "image/jpeg")
+    public static byte[] sendBytes(String resourceName) throws IOException {
+        return Files.readAllBytes(Paths.get("src/main/resources", resourceName));
+    }
+
+    @Step
+    public void doSomething() {
+        try {
+            sendBytes("s.jpeg");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Feature(value = "Класс FrequencyService")
     @Test(description = ("Тест проверяет частоту встречающегося символа"))
     void shouldCountFrequency() {
+        doSomething();
         Assert.assertEquals(map.size(), 3);
     }
 
     @Feature(value = "Класс FrequencyService")
     @Test(description = ("Тест проверяет, что символы идут по убыванию "))
     void shouldCheckOrder() {
+        doSomething();
         var it = map.entrySet().iterator();
         var e1 = it.next();
         var e2 = it.next();
