@@ -1,18 +1,17 @@
 package com.example.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Description;
+import io.qameta.allure.Attachment;
+import io.qameta.allure.Feature;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
 import java.util.Map;
 
-@Description("Класс FrequencyService должен")
 class FrequencyServiceTest {
     String testWord;
+    Map<Character, Integer> map;
 
     FrequencyService service = new FrequencyServiceImpl();
 
@@ -20,6 +19,7 @@ class FrequencyServiceTest {
     @BeforeClass
     public void setup(){
         testWord = "aaaaabcccc";
+        map = service.calculateSymbols(testWord);
     }
 
     @AfterClass
@@ -28,10 +28,15 @@ class FrequencyServiceTest {
     }
 
 
-    @Test(description = ("посчитать частоту и проверить порядок по убыванию встречающегося символа"))
+    @Feature(value = "Класс FrequencyService")
+    @Test(description = ("Тест проверяет частоту встречающегося символа"))
     void shouldCountFrequency() {
-        Map<Character, Integer> map = service.calculateSymbols(testWord);
         Assert.assertEquals(map.size(), 3);
+    }
+
+    @Feature(value = "Класс FrequencyService")
+    @Test(description = ("Тест проверяет, что символы идут по убыванию "))
+    void shouldCheckOrder() {
         var it = map.entrySet().iterator();
         var e1 = it.next();
         var e2 = it.next();
