@@ -3,11 +3,8 @@ package com.example.demo.service;
 import io.qameta.allure.Attachment;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Step;
-import io.qameta.allure.testng.TestInstanceParameter;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,13 +18,14 @@ class FrequencyServiceTest {
     FrequencyService service = new FrequencyServiceImpl();
 
 
-    @BeforeClass
-    public void setup(){
-        testWord = "aaaaabcccc";
+    @BeforeMethod
+    @Parameters({"word"})
+    public void setup(String word){
+        testWord = word;
         map = service.calculateSymbols(testWord);
     }
 
-    @AfterClass
+    @AfterMethod
     public void tearDown(){
         testWord = null;
     }

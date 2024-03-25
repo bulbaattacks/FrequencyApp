@@ -30,3 +30,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+allure-report/
+allure-results/
+your-result-folder/
